@@ -1,5 +1,6 @@
 from nicegui import ui
 
+# Define the color scheme
 ui.colors(
       primary='#1976d2',
       secondary='#26a69a',
@@ -10,6 +11,7 @@ ui.colors(
       warning='#f2ce6b'
 )
 
+# Function to convert between Celsius and Fahrenheit
 def convert():
     try: 
         temp = float(input_field.value)
@@ -18,12 +20,11 @@ def convert():
         else:
             result_label.set_text(f"{temp}°F = {(temp - 32) * 5/9:.2f}°C")
         result_label.classes("text-lg font-semibold text-positive mt-4")
-        # text-positive: this code applies a positive text color
     except ValueError:
-        result_label.set_text("Please enter a valid number.") # this code returns a strings after a exception is reach
+        result_label.set_text("Please enter a valid number.")
         result_label.classes("text-lg font-semibold text-negative mt-4")
-        # text-negative: this code applies a negative text color
 
+# Function to convert between Kelvin and other temperature scales
 def convert_kelvin():
     try:
         temp = float(kelvin_input.value)
@@ -36,41 +37,23 @@ def convert_kelvin():
         kelvin_result_label.set_text("Please enter a valid number.")
         kelvin_result_label.classes("text-lg font-semibold text-negative mt-4")
 
+# Organize the two cards side by side
 with ui.row().classes("w-full justify-center gap-8 mt-10"):
 
+    # First Card: Celsius <-> Fahrenheit Converter
     with ui.card().classes("w-100 p-6 shadow-xl rounded-xl bg-red-50 border border-gray-200"): 
-        # w-100: Set element width to be fixed at 100
-        # p-6: add 6 units of padding
-        # shadow-xl: adds extra-large shadow
-        # mx-auto: centers the card horizontally
-        # mt-10: adds 10 units of top margins
-        # rounded-xl: adds extra-large border radius
-        # additions: bg-red-50 -> sets the background color to pink 
-        # additions: border-gray-200 -> add a grey border to the background
         ui.label("Temperature Converter").classes("text-2xl font-bold text-accent mb-4 underline")
-        # text-2xl: set text size to extra-large
-        # font-bold: bold the text
-        # text-accent: change text color to accent color
-        # mb-4: adds a bottom margins
-        # additions: underline -> underlines the Temperature Converter text
         input_field = ui.input("Enter Temperature").props('type="number"').classes("w-full mb-4 p-2 text-lg border rounded bg-gray-50")
-        # w-full: sets width to 100% of container
-        # border: adds defaukt borders
-        # rounded: rounds the corners 
-        # additions: bg-gray-50 -> change the enter temperature button to a slight grey color differ from pink background
         conversion_type = ui.radio(["Celsius to Fahrenheit", "Fahrenheit to Celsius"], value="Celsius to Fahrenheit").classes("mb-4")
-        convert_button = ui.button("Convert", on_click=convert).classes("text-white font-bold py-2 px-4 rounded")
-        # text-white: set text color to white
-        # py-2: adds vertical padding by 2 units
-        # px-4: adds horizontal padding by 4 units
-        result_label = ui.label("").classes("text-lg mt-4")
+        convert_button = ui.button("Convert", on_click=convert).classes("text-white font-bold py-2 px-4 rounded bg-primary hover:bg-secondary transition-all duration-300")
+        result_label = ui.label("").classes("text-lg mt-4 text-center tracking-wide")
 
+    # Second Card: Kelvin Converter
     with ui.card().classes("w-100 p-6 shadow-xl rounded-xl bg-blue-50 border border-gray-200"): 
-        ui.label("Kelvin Temperature Converter").classes("text-2xl font-bold text-accent mb-4 underline")
+        ui.label("Kelvin Temperature Converter").classes("text-2xl font-bold text-secondary mb-4 underline")
         kelvin_input = ui.input("Enter Temperature").props('type="number"').classes("w-full mb-4 p-2 text-lg border rounded bg-gray-50")
         kelvin_conversion_type = ui.radio(["Celsius to Kelvin", "Fahrenheit to Kelvin"], value="Celsius to Kelvin").classes("mb-4")
-        kelvin_convert_button = ui.button("Convert", on_click=convert_kelvin).classes("text-white font-bold py-2 px-4 rounded")
-        kelvin_result_label = ui.label("").classes("text-lg mt-4")
-
+        kelvin_convert_button = ui.button("Convert to Kelvin", on_click=convert_kelvin).classes("text-white font-bold py-2 px-4 rounded bg-primary hover:bg-secondary transition-all duration-300")
+        kelvin_result_label = ui.label("").classes("text-lg mt-4 text-center tracking-wide")
 
 ui.run()
