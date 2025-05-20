@@ -15,26 +15,39 @@ def convert():
         temp = float(input_field.value)
         if conversion_type.value == "Celsius to Fahrenheit":
             result_label.set_text(f"{temp}°C = {temp * 9/5 + 32:.2f}°F")
+            if temp == 4.1:
+                rickroll.set_visibility(True)
+            else:
+                rickroll.set_visibility(False)
         else:
             result_label.set_text(f"{temp}°F = {(temp - 32) * 5/9:.2f}°C")
+            rickroll.set_visibility(False)
         result_label.classes("text-lg font-semibold text-positive mt-4")
         # text-positive: this code applies a positive text color
     except ValueError:
         result_label.set_text("Please enter a valid number.") # this code returns a strings after a exception is reach
         result_label.classes("text-lg font-semibold text-negative mt-4")
         # text-negative: this code applies a negative text color
+        rickroll.set_visibility(False)
 
 def convert_kelvin():
     try:
         temp = float(kelvin_input.value)
         if kelvin_conversion_type.value == "Celsius to Kelvin":
             kelvin_result_label.set_text(f"{temp}°C = {temp + 273.15:.2f}K")
+            if temp == -273.15:
+                end_of_life_video.set_visibility(True)
+            else:
+                end_of_life_video.set_visibility(False)
         else:
             kelvin_result_label.set_text(f"{temp}°F = {(temp - 32) * 5/9 + 273.15:.2f}K")
-        kelvin_result_label.classes("text-lg font-semibold text-info mt-4")
+            kelvin_result_label.classes("text-lg font-semibold text-info mt-4")
+            end_of_life_video.set_visibility(False)
     except ValueError:
         kelvin_result_label.set_text("Please enter a valid number.")
         kelvin_result_label.classes("text-lg font-semibold text-negative mt-4")
+        end_of_life_video.set_visibility(False)
+
 
 with ui.row().classes("w-full justify-center gap-8 mt-10"):
 
@@ -64,6 +77,8 @@ with ui.row().classes("w-full justify-center gap-8 mt-10"):
         # py-2: adds vertical padding by 2 units
         # px-4: adds horizontal padding by 4 units
         result_label = ui.label("").classes("text-lg mt-4")
+        rickroll = ui.image("https://www.todayifoundout.com/wp-content/uploads/2017/11/rick-astley.png")
+        rickroll.set_visibility(False)
 
     with ui.card().classes("w-100 p-6 shadow-xl rounded-xl bg-blue-50 border border-gray-200"): 
         ui.label("Kelvin Temperature Converter").classes("text-2xl font-bold text-accent mb-4 underline")
@@ -71,6 +86,10 @@ with ui.row().classes("w-full justify-center gap-8 mt-10"):
         kelvin_conversion_type = ui.radio(["Celsius to Kelvin", "Fahrenheit to Kelvin"], value="Celsius to Kelvin").classes("mb-4")
         kelvin_convert_button = ui.button("Convert", on_click=convert_kelvin).classes("text-white font-bold py-2 px-4 rounded")
         kelvin_result_label = ui.label("").classes("text-lg mt-4")
-
-
+        end_of_life_video = ui.html('''<iframe src="https://www.youtube.com/embed/TNUDBdv3jWI"></iframe>''')
+        end_of_life_video.set_visibility(False)
+        ui.audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')
+        checkbox = ui.checkbox('check me for a surprise')
+        ui.label('BOO!').bind_visibility_from(checkbox, 'value') 
+        ui.avatar('img:https://ih1.redbubble.net/image.1968248280.0899/st,small,507x507-pad,600x600,f8f8f8.jpg')
 ui.run()
